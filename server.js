@@ -5,9 +5,11 @@ const PORT = process.env.PORT || 3000;
 const { animals } = require('./data/animals.json')
 const fs = require('fs');
 const path = require('path');
+
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 function filterByQuery(query, animalsArray) {
     let personalityTraitsArray = [];
@@ -74,6 +76,9 @@ function validateAnimal(animal) {
       return true;
 }
 
+// We can assume that a route that has the term api in it will deal in transference of JSON data, 
+// whereas a more normal-looking endpoint such as /animals should serve an HTML page.
+
 app.get("/api/animals", (req, res) => {
     let results = animals;
     if(req.query) {
@@ -98,6 +103,22 @@ app.post("/api/animals", (req, res) => {
         res.json(animal);
     }
 })
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html')); 
+})
+
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+})
+
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+  })
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));  
+  });
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);

@@ -117,6 +117,15 @@
         "hungry"
       ],
       "id": "11"
+    },
+    {
+      "name": "Franky",
+      "species": "Bio-Mutant",
+      "diet": "carnivore",
+      "personalityTraits": [
+        "hungry"
+      ],
+      "id": "12"
     }
   ]
 }
